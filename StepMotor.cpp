@@ -48,6 +48,7 @@ stepMotor::stepMotor(char i){
   homePos=tempHome[ii];
   steps_per_mm=tempSteps[ii];
   logic_of_ES=tempLogic[ii];
+  
   pos=0;
   isHome=0;   
   if (homePos==0) 
@@ -83,33 +84,34 @@ void stepMotor::toHome(){
   }
   pos=homePos;
 }
+
 void stepMotor::setFeedrate(float Feedrate){
   feedrate=Feedrate;   
 }
 
 void stepMotor::oneStep(){
-  
   digitalWrite(pSTEP,1);
   delay(step_delay/2);
   digitalWrite(pSTEP,0);
   delay(step_delay/2);
 }
+
 void stepMotor::steps(float distance_to_move)
 { 
   int steps_left = abs(distance_to_move)*steps_per_mm;  
   step_delay =1000L/steps_per_mm/feedrate;
   float pos_previous=pos;
-  // determine direction based on whether distance_to_mode is + or -:
-
+  
+  // determine direction based on whether distance_to_move is + or -:
   if (distance_to_move > 0) {digitalWrite(pDIR,DIRtoMax);}
   if (distance_to_move < 0) {digitalWrite(pDIR,!DIRtoMax);}
  
   while(steps_left > 0) {
     oneStep();
-    pos=pos+1.0/steps_per_mm;  //实时更新位置信息但不准确   计算精度所限
+    pos=pos+1.0/steps_per_mm;  //Since the computational accuracy is limited, this current position is not accurate.
     steps_left--;
-    }
-    pos=pos_previous+distance_to_move ;//准确的位置信息
+    }  
+  pos=pos_previous+distance_to_move ;//recorrect the current position
   
 }
 

@@ -9,7 +9,7 @@ stepMotor smY=stepMotor('Y');
 stepMotor smZ=stepMotor('Z');
 stepMotor smE=stepMotor('E');
 
-int targetTemp=60;
+int targetTemp=60;   //default target: 60
 boolean heaterOn=false;
   
 Gcode::Gcode(String inString){
@@ -202,16 +202,15 @@ String Mcode::get(){
   return code;
 }
 void Mcode::solve(){
-  int readPos =1;//指令的阅读点
+  int readPos =1;
   String StrCodeNum="";
   for(readPos=1;code[readPos]!=' '&&readPos<code.length();readPos++)
   {
     StrCodeNum= StrCodeNum+code[readPos];
   }
   int codeNum=atoi(StrCodeNum.c_str());
-  switch (codeNum){                  //根据M代码的内容执行
+  switch (codeNum){                   //The codes are executed differently according to the number after 'M'('m').
     case 104 :
-      
       solve104(readPos);
       break;
     case 105:
@@ -231,16 +230,16 @@ void Mcode::solve(){
 void Mcode::solve119(){
   Serial.print("x home endstop status:");
   Serial.println(smX.getIsHome());
-  pinMode(3,INPUT_PULLUP);
-  Serial.print("x MAX endstop status:");
-  Serial.println(digitalRead(3));
+  pinMode(2,INPUT_PULLUP);
+  Serial.print("x MAX endstop status:");   //After printing one slice, the motherboard moves the carriage to x max, and then triggers this endstop.
+  Serial.println(digitalRead(2));
   Serial.print("y endstop status:");
   Serial.println(smY.getIsHome());
   Serial.print("z endstop status:");
   Serial.println(smZ.getIsHome());
   
   //Serial.print("e endstop status:");
-  //Serial.println(smZ.getIsHome());
+  //Serial.println(smE.getIsHome());
 }
 
 void Mcode::solve114(){
@@ -256,8 +255,8 @@ void Mcode::solve114(){
    
 }
 void Mcode::solve104(int readPos){
-  while(code[readPos]==' '){readPos++;}  //跳过空格
-  String StrTemp="";
+  while(code[readPos]==' '){readPos++;}  //skip spacing
+  String StrTemp="";   //store the string of target temperature
   for (readPos;code[readPos]!=' '&&readPos<code.length();readPos++)
       {
         StrTemp= StrTemp+code[readPos];
@@ -270,6 +269,6 @@ void Mcode::solve104(int readPos){
 void Mcode::solve105(int readPos){
   float x=analogRead(THERM0)/1024.0*5.0;
   float currentTemp = -1.1851*x*x*x*x*x+15.697*x*x*x*x-80.174*x*x*x+197.95*x*x-267.84*x+298.52;
-  Serial.print("current temperature:");
+  Serial.print("current temperature:"); //the fitting function of the characteristic curve of the temperature sensor
   Serial.println(currentTemp);
 }

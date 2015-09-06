@@ -19,6 +19,7 @@ String inString="" ;
 
 extern int targetTemp;
 extern boolean heaterOn;
+
 void setup() {
   Serial.begin(9600);
   pinMode(13,1);
