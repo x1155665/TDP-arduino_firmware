@@ -33,3 +33,6 @@ Commands supported:
 
 
 In most cases, this firmware is not as competent as Marlin. However, it's more friendly to the beginners and those who want to make some modifications.
+
+
+fxck CRLF.....
