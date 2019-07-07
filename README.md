@@ -1,12 +1,8 @@
 # TDP-arduino_firmware
 
-An arduino firmware for a 3D-printer based on injet printing
+An arduino firmware for a 3D-printer based on injet printing.
 
-
-
-This firmware is intended for a project of CDHAW, tognji University and works together with TDP-host(https://github.com/x1155665/TDP-host ). Anyway, it still can works well indepently.
-
-
+This firmware is intended for a project of CDHAW, tognji University and works together with TDP-host(https://github.com/x1155665/TDP-host ). Anyway, it still works well indepently.
 
 Commands supported:
   
@@ -31,8 +27,4 @@ Commands supported:
     G0 R0   //turn off spreader 
 
 
-
 In most cases, this firmware is not as competent as Marlin. However, it's more friendly to the beginners and those who want to make some modifications.
-
-
-fxck CRLF.....
